@@ -1,5 +1,7 @@
-# Statistical_Quality_Control_Analysis
-Applied normal distribution, z-scores, and confidence intervals to analyze rod manufacturing data. Built visualizations using Python to identify defect thresholds and guide production quality metrics.
+# Statistical Quality Control Analysis
+
+Applied **normal distribution**, **z-scores**, and **confidence intervals** to analyze rod manufacturing data. 
+Built visualizations using Python to identify defect thresholds and guide production quality metrics.
 
 
 
