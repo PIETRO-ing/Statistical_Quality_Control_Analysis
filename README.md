@@ -3,4 +3,4 @@ Applied normal distribution, z-scores, and confidence intervals to analyze rod m
 
 
 
-<img src="normal_distribution_of_rod_lengths.png" alt="Normal Distribution Plot" width="500"/>
+<img src="normal_distribution_of_rod_lengths.png" alt="Normal Distribution Plot" width="800"/>
