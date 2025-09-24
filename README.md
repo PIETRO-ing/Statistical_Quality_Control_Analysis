@@ -45,6 +45,10 @@ The chart above shows the **sample mean**, **95% CI bounds**, and **margin of er
 - Matplotlib
 - Jupyter Notebook
 
+## Content:
+- quality_control_ipynb is a Jupyter Notebook that shows all the steps to solve the case study.
+- quality_control_function.py is a Python file where the case study is wrapped up in fuctions.
+
 ## Insights
 
 This analysis can be applied to real-world quality control to detect production issues early and ensure product reliability.
