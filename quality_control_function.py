@@ -4,7 +4,7 @@ import math
 from scipy.stats import norm
 from scipy.stats import t
 
-def quality_control_analysis(**kwargs):
+def probability_analysis(**kwargs):
     
     # Default Parameters
     mu = kwargs.get("mu", 50)
@@ -12,10 +12,6 @@ def quality_control_analysis(**kwargs):
     x_val = kwargs.get("x_val", 51.5)
     x_lower = kwargs.get("x_lower", 49)
     x_upper = kwargs.get("x_upper", 51)
-    n = kwargs.get("n", 25)                      # sample size
-    x_bar = kwargs.get("x_bar", 50.1)            # sample mean
-    confidence = kwargs.get("confidence", 0.95)  # confidence level
-    s = kwargs.get("s", 0.52 )                   # sample standard deviation
 
     # Calculate PDF
     pdf_51_5 = norm.pdf(x_val, mu, sigma)
@@ -46,5 +42,54 @@ def quality_control_analysis(**kwargs):
     p_within_1cm_perc = p_within_1cm * 100
     print(f"The probability that a randomly selected rod has a length ± 1cm from the mean is: {p_within_1cm_perc:.2f}%\n")
 
+def confidence_interval(**kwargs):
+    # Default Parameters
+    mu = kwargs.get("mu", 50)
+    sigma = kwargs.get("sigma", None)
+    x_val = kwargs.get("x_val", 51.5)
+    x_lower = kwargs.get("x_lower", 49)
+    x_upper = kwargs.get("x_upper", 51)
+    n = kwargs.get("n", 25)                      # sample size
+    x_bar = kwargs.get("x_bar", 50.1)            # sample mean
+    confidence = kwargs.get("confidence", 0.95)  # confidence level
+    s = kwargs.get("s", 0.52 )                   # sample standard deviation
 
-quality_control_analysis()
+    alpha = 1 - confidence
+
+    # Determine whether to use z-distribution or t-distribution
+    if sigma is not None and sigma > 0: # z-distribution
+    
+        SE = sigma / math.sqrt(n)
+        critical_value = norm.ppf(1 - alpha/2)
+        ditribution_type = "Z"
+
+    else: # t-distribution
+        df = n - 1
+        SE = s / math.sqrt(n)
+        critical_value = t.ppf(1 - alpha/2, df)
+        distribution_type = 'T'
+
+    # Calculate margin erro
+    margin_error = critical_value * SE
+
+    # Calculate confidence interval
+    CI_lower = x_bar - margin_error
+    CI_upper = x_bar + margin_error
+
+
+    # Print results
+    print(f"Using the {distribution_type}-distribution:")
+    print(f"Standard Error (SE): {SE:.4f}")
+    print(f"Critical value: {critical_value:.4f}")
+    print(f"Margin of Error (ME): {margin_error:.4f}")
+    print(f"{int(confidence*100)}% Confidence Interval: ({CI_lower:.3f}, {CI_upper:.3f})")
+    print(f"We are {int(confidence*100)}% confident that the true mean lies between {CI_lower:.3f} and {CI_upper:.3f}.")
+
+    return (CI_lower, CI_upper)
+
+    
+
+
+
+
+probability_analysis()
