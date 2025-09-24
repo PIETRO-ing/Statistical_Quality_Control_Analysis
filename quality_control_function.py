@@ -135,13 +135,13 @@ def plot_confidence_interval(results):
 
     # Save and show plot
     plt.savefig(f"ci_plot_{dist_type}_distribution.png")
-    plt.show()
+    #plt.show()
 
 
 probability_analysis()
 
-results = confidence_interval(n=25, x_bar=50.1, s=0.52, sigma=None)  # t-dist case
-plot_confidence_interval(results)
+results_t = confidence_interval(n=25, x_bar=50.1, s=0.52, sigma=None)  # t-dist case
+plot_confidence_interval(results_t)
 
-results = confidence_interval(n=25, x_bar=50.1, sigma=0.5)          # z-dist case
-plot_confidence_interval(results)
+results_z = confidence_interval(n=25, x_bar=50.1, sigma=0.5)          # z-dist case
+plot_confidence_interval(results_z)
