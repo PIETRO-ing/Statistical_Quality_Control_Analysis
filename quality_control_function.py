@@ -61,7 +61,7 @@ def confidence_interval(**kwargs):
     
         SE = sigma / math.sqrt(n)
         critical_value = norm.ppf(1 - alpha/2)
-        ditribution_type = "Z"
+        distribution_type = "Z"
 
     else: # t-distribution
         df = n - 1
@@ -69,7 +69,7 @@ def confidence_interval(**kwargs):
         critical_value = t.ppf(1 - alpha/2, df)
         distribution_type = 'T'
 
-    # Calculate margin erro
+    # Calculate margin error
     margin_error = critical_value * SE
 
     # Calculate confidence interval
@@ -85,11 +85,63 @@ def confidence_interval(**kwargs):
     print(f"{int(confidence*100)}% Confidence Interval: ({CI_lower:.3f}, {CI_upper:.3f})")
     print(f"We are {int(confidence*100)}% confident that the true mean lies between {CI_lower:.3f} and {CI_upper:.3f}.")
 
-    return (CI_lower, CI_upper)
+     # Return dictionary for easy plotting
+    return {
+        "mu": mu,
+        "sigma": sigma,
+        "x_val": x_val,
+        "x_lower": x_lower,
+        "x_upper": x_upper,
+        "n": n,
+        "x_bar": x_bar,
+        "confidence": confidence,
+        "s": s,
+        "SE": SE,
+        "critical_value": critical_value,
+        "margin_error": margin_error,
+        "ci_lower": CI_lower,
+        "ci_upper": CI_upper,
+        "distribution_type": distribution_type
+    }
 
     
+def plot_confidence_interval(results):
+    x_bar = results["x_bar"]
+    ME = results["margin_error"]
+    CI_lower = results["ci_lower"]
+    CI_upper = results["ci_upper"]
+    SE = results["SE"]
+    dist_type = results["distribution_type"]
+    confidence = results["confidence"]
 
+    fig, ax = plt.subplots(figsize=(8, 4))
 
+    # Plot error bar for confidence interval around the mean
+    ax.errorbar(x_bar, 0, xerr=ME, fmt='o', color='blue', capsize=5, label=f'{int(confidence*100)}% CI')
+
+    # Vertical lines for CI bounds and sample mean
+    ax.axvline(CI_lower, color='red', linestyle='--', label='CI Lower Bound')
+    ax.axvline(CI_upper, color='green', linestyle='--', label='CI Upper Bound')
+    ax.axvline(x_bar, color='black', linestyle='-', label='Sample Mean')
+
+    # Styling
+    ax.set_title(f"{int(confidence*100)}% Confidence Interval for Rod Length (σ {'known' if dist_type=='Z' else 'unknown'}, {dist_type}-distribution)")
+    ax.set_xlabel("Rod Length (cm)")
+    ax.set_yticks([])
+    ax.set_xlim(x_bar - 4*SE, x_bar + 4*SE)
+    ax.legend()
+    plt.grid(axis='x')
+    plt.tight_layout()
+
+    # Save and show plot
+    plt.savefig(f"ci_plot_{dist_type}_distribution.png")
+    plt.show()
 
 
 probability_analysis()
+
+results = confidence_interval(n=25, x_bar=50.1, s=0.52, sigma=None)  # t-dist case
+plot_confidence_interval(results)
+
+results = confidence_interval(n=25, x_bar=50.1, sigma=0.5)          # z-dist case
+plot_confidence_interval(results)
