@@ -44,7 +44,7 @@ def quality_control_analysis(**kwargs):
     p_z_x_lower = norm.cdf(z_x_lower)
     p_within_1cm = p_z_x_upper - p_z_x_lower
     p_within_1cm_perc = p_within_1cm * 100
-    print(f"The probability that a randomly selected rod has a length ± 1cm from the mean is: {p_within_1cm_perc:.2f}%")
+    print(f"The probability that a randomly selected rod has a length ± 1cm from the mean is: {p_within_1cm_perc:.2f}%\n")
 
 
 quality_control_analysis()
