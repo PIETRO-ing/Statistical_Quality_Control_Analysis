@@ -38,6 +38,10 @@ A factory produces metal rods with lengths that follow a **normal distribution**
 
 The chart above shows the **sample mean**, **95% CI bounds**, and **margin of error** using the t-distribution.
 
+<img scr='ci_plot_Z_distribution' alt="95% CI z_distribution", width=800/>
+
+The chart above shows the **sample mean**, **95% CI bounds**, and **margin of error** using the z-distribution.
+
 
 ## Tools:
 - Python
