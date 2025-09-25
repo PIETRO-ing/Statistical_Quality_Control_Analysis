@@ -45,9 +45,11 @@ The chart above shows the **sample mean**, **95% CI bounds**, and **margin of er
 
 ## Tools:
 - Python
-- NumPy, SciPy
-- Matplotlib
 - Jupyter Notebook
+- NumPy
+- SciPy
+- Matplotlib
+
 
 ## Content:
 - **quality_control.ipynb** is a Jupyter Notebook that shows all the steps to solve the case study.
