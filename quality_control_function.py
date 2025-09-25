@@ -41,6 +41,65 @@ def probability_analysis(**kwargs):
     p_within_1cm = p_z_x_upper - p_z_x_lower
     p_within_1cm_perc = p_within_1cm * 100
     print(f"The probability that a randomly selected rod has a length ± 1cm from the mean is: {p_within_1cm_perc:.2f}%\n")
+    
+    # Return a dictionary for easy plotting
+    return { 
+        "mu": mu,
+        "sigma": sigma,
+        "x_val": x_val,
+        "x_lower": x_lower,
+        "x_upper": x_upper,
+        "pdf_51_5": pdf_51_5,
+        "p_within_1cm_perc": p_within_1cm_perc
+    }
+
+
+
+def plot_normal_distribution(results):
+    mu = results['mu']
+    sigma = results['sigma']
+    x_val = results['x_val']
+    x_lower = results['x_lower']
+    x_upper = results['x_upper']
+    pdf_51_5 = results['pdf_51_5']
+    p_within_1cm_perc = results['p_within_1cm_perc']
+
+    x = np.linspace(mu - 4*sigma, mu + 4*sigma, 1000)
+    y = norm.pdf(x, mu, sigma) 
+
+    plt.figure(figsize=(14,8))
+    plt.plot(x, y, label= 'Normal Distribution', color='blue')
+
+    # Shade area for x ≤ x_val
+    x_fill = np.linspace(mu - 4*sigma, x_val, 1000)
+    y_fill = norm.pdf(x_fill, mu, sigma)
+    plt.fill_between(x_fill, y_fill, color='skyblue', alpha=0.6, label=f'P(X ≤ {x_val})')
+
+    # Shade area within ±1 cm (x_lower tox_upper)
+    x_band = np.linspace(x_lower, x_upper, 1000)
+    y_band = norm.pdf(x_band, mu, sigma)
+    plt.fill_between(x_band, y_band, color='lightgreen', alpha=0.6, label=f'P({x_lower} ≤ X ≤ {x_upper}) ≈ {p_within_1cm_perc:.2f}%')
+
+    # Mark bounds: x_lower - x_upper - x_val
+    plt.axvline(x_val, linestyle='--', color='red', label=f'{x_val}cm')
+    plt.plot(x_val, pdf_51_5, 'ro')  # point on the curve
+    plt.axvline(mu, linestyle='--', color='black', alpha=0.5, label=f'Mean ({mu}cm)')
+    plt.axvline(x_upper, linestyle='--', color='blue', label=f'{x_upper}cm')
+    plt.axvline(x_lower, linestyle='--', color='blue', label=f'{x_lower}cm')
+
+    # Labels 
+    plt.title("Normal Distribution of Rod Lengths")
+    plt.xlabel("Rod Length (cm)")
+    plt.ylabel("Probability Density")
+    plt.legend()
+    plt.grid(True)
+
+    # Saving the plot
+    plt.savefig('normal_distribution_of_rod_lengths.png')
+
+    #plt.show()
+
+
 
 def confidence_interval(**kwargs):
     # Default Parameters
