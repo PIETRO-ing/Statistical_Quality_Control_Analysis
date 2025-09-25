@@ -197,7 +197,8 @@ def plot_confidence_interval(results):
     #plt.show()
 
 
-probability_analysis()
+results_norm = probability_analysis()
+plot_normal_distribution(results_norm)
 
 results_t = confidence_interval(n=25, x_bar=50.1, s=0.52, sigma=None)  # t-dist case
 plot_confidence_interval(results_t)
